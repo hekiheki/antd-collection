@@ -1,0 +1,8 @@
+.normal{
+  width: 100%;
+  padding-top: 12px;
+}
+.normal>Button{
+  width: 100%;
+  margin-bottom: 1em;
+}
