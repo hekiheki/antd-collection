@@ -3,7 +3,16 @@ import { queryNavigationList } from '../services/api';
 export default {
   namespace: 'navigation',
   state: {
-    list: [],
+    list: [{
+      tagName: '日常',
+      tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'bilibili',itemUrl:'http://www.bilibili.com'}],
+    },{
+      tagName: '技术',
+      tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'antd',itemUrl:'https://ant.design/index-cn'}],
+    },{
+      tagName: '娱乐',
+      tagItem: [{itemName:'bilibili',itemUrl:'http://www.bilibili.com'},{itemName:'优酷',itemUrl:'http://www.youku.com'}],
+    }],
     closable: false,
   },
   reducers: {
@@ -20,7 +29,7 @@ export default {
         list.push({tagName:item,tagItem:[{itemName:itemName,itemUrl:itemUrl}]})
       })
       localStorage.setItem('list',JSON.stringify(list));
-      return {...state,payload}
+      return {...state, list: list }
     },
     saveList(state,{ payload }){
       const localList = JSON.parse(localStorage.getItem('list'));
@@ -29,9 +38,31 @@ export default {
         list: localList ? localList : payload,
       };
     },
-    update(state, { payload }){
-      return { ...state, ...payload}
+    showDeleteIcon(state, { payload }){
+      return { ...state, ...payload }
     },
+    deleteItems(state, { payload }){
+      const { tagName, list, itemIndex } = payload;
+
+      list.map(function(item){
+        if( item.tagName == tagName){
+          item.tagItem.splice(itemIndex,1)
+        }
+      });
+
+      localStorage.setItem('list',JSON.stringify(list));
+
+      return { ...state, list: list }
+    },
+    deleteTags(state, { payload }){
+      const { list, tagIndex } = payload;
+
+      list.splice(tagIndex,1);
+
+      localStorage.setItem('list',JSON.stringify(list));
+
+      return { ...state, list: list }
+    }
   },
   effects: {
     *fetchList({}, {call,put}){

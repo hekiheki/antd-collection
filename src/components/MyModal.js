@@ -1,9 +1,17 @@
 import React from 'react';
-import { Modal, Input, Tag, Icon, Row, Col } from 'antd';
+import { Modal, Input, Tag, Icon, Row, Col, Select } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './MyModal.css';
 
 const CheckableTag = Tag.CheckableTag;
+const Option = Select.Option;
+
+const selectBefore = (
+  <Select defaultValue="Http://" style={{ width: 90 }}>
+    <Option value="Http://">Http://</Option>
+    <Option value="Https://">Https://</Option>
+  </Select>
+);
 
 function MyModal({
                    modalVisible,

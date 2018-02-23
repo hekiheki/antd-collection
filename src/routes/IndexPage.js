@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Switch } from 'antd';
+import { Row, Col, Switch, Modal, message } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './IndexPage.css';
 import MySearch from '../components/MySearch.js';
@@ -12,6 +12,7 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
   const { buttonValue, optionValue, selectValue } = mysearch;
   const { modalVisible, selectedTags,inputValue,inputVisible,tags,itemName,itemUrl } = mymodal;
   const { list, closable } = navigation;
+  const confirm = Modal.confirm;
 
   const searchProps = {
     buttonValue: buttonValue,
@@ -74,7 +75,16 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
           type: 'mymodal/hideModal',
         })
       }else{
-        console.error('no')
+        if(!itemName){
+          message.warning('名称不能为空');
+        }
+        else if(!itemUrl){
+          message.warning('网址不能为空');
+        }else if(!selectedTags.length){
+          message.warning('你还未选择分组');
+        }else{
+          message.warning('信息不完整');
+        }
       }
 
     },
@@ -130,24 +140,58 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
   const navigationProps = {
     data: list,
     closable: closable,
-    removedTags(removeTag){
-      console.log(removeTag)
+    removedItems(tagName,i){
+      confirm({
+        title: '删除',
+        content: '确定要删除这个标签吗？',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          dispatch({
+            type: 'navigation/deleteItems',
+            payload:{ tagName: tagName, list: list, itemIndex: i }
+          })
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
 
-  function deleteNavigation(e){
+  function showDeleteIcon(closable){
     dispatch({
-      type: 'navigation/update',
-      payload:{ closable: e }
+      type: 'navigation/showDeleteIcon',
+      payload:{ closable: closable }
     })
   }
   const tagListProps = {
     tagName: list,
+    closable: closable,
     showModal(){
       dispatch({
         type: 'mymodal/showModal',
         payload:{ tags: list.map( tag => tag.tagName),selectedTags: [] }
       })
+    },
+    removedTags(i){
+      confirm({
+        title: '删除',
+        content: '确定要整个分组吗？',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          dispatch({
+            type: 'navigation/deleteTags',
+            payload:{ list: list, tagIndex: i }
+          })
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
   }
   return (
@@ -155,7 +199,7 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
       <Row type="flex" justify="center" align="top">
         <Col span={24}><MySearch {...searchProps} /></Col>
       </Row>
-
+      <Row type="flex" justify="end" align="middle">编辑：<Switch checkedChildren="开" unCheckedChildren="关" onChange={showDeleteIcon} /></Row>
       <Row type="flex" justify="space-around" align="top">
         <Col span={4}><TagList {...tagListProps} /></Col>
         <Col span={19}><Navigation {...navigationProps} /></Col>

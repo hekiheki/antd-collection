@@ -1,15 +1,38 @@
 import React from 'react';
-import { List, Card, Tag, Row, Col } from 'antd';
+import { Card, Row, Col, Button, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './Navigation.css';
 
-function Navigation({data, removedTags, closable}) {
+function Navigation({data, removedItems, closable}) {
   return (
     <div className={styles.normal}>
       {
-        data.map((item,i) => <Card key={i} title={item.tagName} extra={<a href="#">More</a>} className={styles.card}>
-          <Row type="flex">
-            {item.tagItem.map((item,i) => <Tag key={i} closable={closable} onClose={removedTags}><a href={item.itemUrl} target='_blank'>{item.itemName}</a></Tag>)}
+        data.map((tag,i) => <Card key={i} title={tag.tagName} extra={<a href="#">More</a>} className={styles.card}>
+
+          <Row type="flex" align="top">
+            {tag.tagItem.map((item,i) =>
+              <Col key={i} className={styles.col}>
+                { !closable &&
+                  <Button
+                    size="small"
+                    value={item.itemName}
+                    href={item.itemUrl}
+                    target='_blank'
+                  >
+                    {item.itemName}
+                  </Button>
+                }
+                { closable && <Button
+                  size="small"
+                  value={item.itemName}
+                  onClick={() => removedItems(tag.tagName,i)}
+                  className="tada animated infinite"
+                >
+                  {item.itemName}
+                  <Icon type="close" />
+                </Button>
+                }
+              </Col>)}
           </Row>
         </Card>)
       }
@@ -19,7 +42,7 @@ function Navigation({data, removedTags, closable}) {
 
 Navigation.propTypes = {
   data: PropTypes.array,
-  removedTags: PropTypes.func,
+  removedItems: PropTypes.func,
   closable: PropTypes.bool,
 };
 
