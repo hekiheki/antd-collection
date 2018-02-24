@@ -21,6 +21,9 @@
 3.登录用户可修改常用搜索标签
 
 # 如何开始
-
+  > git clone https://github.com/hekiheki/antd-collection.git
+	> cd antd-collection
+	> npm install
+	> npm start
 
 
