@@ -21,7 +21,7 @@
 3. 登录用户可修改常用搜索标签
 
 # 如何开始
-```> git clone https://github.com/ckinmind/react-cnode.git```
-```> cd react-cnode```
-```> npm install```
-```> npm start``````
+  git clone https://github.com/ckinmind/react-cnode.git
+  cd react-cnode
+  npm install
+  npm start
