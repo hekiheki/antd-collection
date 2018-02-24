@@ -33,29 +33,31 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
       })
     },
     onSearch(value){
+
       switch(selectValue){
         case 'baidu':
-          location.href = 'https://www.baidu.com/s?wd='+value;
+          window.open( 'https://www.baidu.com/s?wd='+value) ;
           break;
         case 'google':
-          location.href = 'https://www.google.com/search?q='+value;
+          window.open( 'https://www.google.com/search?q='+value);
           break;
         case 'zhihu':
-          location.href = 'https://www.zhihu.com/search?q='+value;
+          window.open( 'https://www.zhihu.com/search?q='+value);
           break;
         case 'github':
-          location.href = 'https://github.com/search?q='+value;
+          window.open( 'https://github.com/search?q='+value);
           break;
         case 'bing':
-          location.href = 'https://cn.bing.com/search?q='+value;
+          window.open( 'https://cn.bing.com/search?q='+value);
           break;
         case 'stackoverflow':
-          location.href = 'https://stackoverflow.com/search?q='+value;
+          window.open( 'https://stackoverflow.com/search?q='+value);
           break;
         case 'sougou':
-          location.href = 'https://weixin.sougou.com/weixin?type=2&query='+value;
+          window.open( 'https://weixin.sougou.com/weixin?type=2&query='+value);
           break;
       }
+
     },
   }
 
