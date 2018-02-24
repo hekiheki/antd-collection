@@ -22,9 +22,9 @@
 
 # 如何开始
 
-  > git clone https://github.com/hekiheki/antd-collection.git  
-	> cd antd-collection  
-	> npm install  
-	> npm start  
+    > git clone https://github.com/hekiheki/antd-collection.git  
+    > cd antd-collection  
+    > npm install  
+    > npm start  
 
 
