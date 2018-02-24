@@ -1,18 +1,21 @@
 import { queryNavigationList } from '../services/api';
 
+const localList = JSON.parse(localStorage.getItem('list'));
+const defaultList = [{
+  tagName: '日常',
+  tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'bilibili',itemUrl:'http://www.bilibili.com'}],
+},{
+  tagName: '技术',
+  tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'antd',itemUrl:'https://ant.design/index-cn'}],
+},{
+  tagName: '娱乐',
+  tagItem: [{itemName:'bilibili',itemUrl:'http://www.bilibili.com'},{itemName:'优酷',itemUrl:'http://www.youku.com'}],
+}];
+
 export default {
   namespace: 'navigation',
   state: {
-    list: [{
-      tagName: '日常',
-      tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'bilibili',itemUrl:'http://www.bilibili.com'}],
-    },{
-      tagName: '技术',
-      tagItem: [{itemName:'百度',itemUrl:'http://www.baidu.com'},{itemName:'antd',itemUrl:'https://ant.design/index-cn'}],
-    },{
-      tagName: '娱乐',
-      tagItem: [{itemName:'bilibili',itemUrl:'http://www.bilibili.com'},{itemName:'优酷',itemUrl:'http://www.youku.com'}],
-    }],
+    list: localList ? localList : defaultList,
     closable: false,
   },
   reducers: {
@@ -65,21 +68,21 @@ export default {
     }
   },
   effects: {
-    *fetchList({}, {call,put}){
-      const response = yield call(queryNavigationList,'api/navigation');
-      yield put({
-        type: 'saveList',
-        payload: Array.isArray(response.data) ? response.data : [],
-      });
-    }
+    // *fetchList({}, {call,put}){
+    //   const response = yield call(queryNavigationList,'api/navigation');
+    //   yield put({
+    //     type: 'saveList',
+    //     payload: Array.isArray(response.data) ? response.data : [],
+    //   });
+    // }
   },
   subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/') {
-          dispatch({ type: 'fetchList',payload:query });
-        }
-      });
-    },
+    // setup({ dispatch, history }) {
+    //   return history.listen(({ pathname, query }) => {
+    //     if (pathname === '/') {
+    //       dispatch({ type: 'fetchList',payload:query });
+    //     }
+    //   });
+    // },
   },
 };

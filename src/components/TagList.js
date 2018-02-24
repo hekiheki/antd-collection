@@ -21,7 +21,7 @@ function TagList({tagName, showModal, closable, removedTags}) {
           </Button>
         )
       }
-      <Button type="dashed" onClick={showModal}><Icon type="plus" /> 添加</Button>
+      { closable && <Button type="dashed" onClick={showModal}><Icon type="plus" /> 添加</Button>}
     </div>
   );
 }
