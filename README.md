@@ -7,7 +7,7 @@
 # 项目说明
 
 * 本项目使用了[Ant Design](https://ant.design/index-cn)来构建
-* 部分动画使用了[animate.css](https://daneden.github.io/animate.css/)
+* 部分动画使用了[rc-tween-one](https://motion.ant.design/api/tween-one)
 
 # 待解决问题
 
