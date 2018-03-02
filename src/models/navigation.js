@@ -17,6 +17,7 @@ export default {
   state: {
     list: localList ? localList : defaultList,
     closable: false,
+    pause: true,
   },
   reducers: {
     add(state, { payload } ) {

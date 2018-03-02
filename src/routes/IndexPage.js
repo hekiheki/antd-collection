@@ -11,7 +11,7 @@ import Navigation from '../components/Navigation.js';
 function IndexPage({mysearch,navigation,mymodal,dispatch}) {
   const { buttonValue, optionValue, selectValue } = mysearch;
   const { modalVisible, selectedTags,inputValue,inputVisible,tags,itemName,itemUrl } = mymodal;
-  const { list, closable } = navigation;
+  const { list, closable, pause } = navigation;
   const confirm = Modal.confirm;
 
   const searchProps = {
@@ -142,6 +142,7 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
   const navigationProps = {
     data: list,
     closable: closable,
+    paused: pause,
     removedItems(tagName,i){
       confirm({
         title: '删除',
@@ -165,12 +166,13 @@ function IndexPage({mysearch,navigation,mymodal,dispatch}) {
   function showDeleteIcon(closable){
     dispatch({
       type: 'navigation/showDeleteIcon',
-      payload:{ closable: closable }
+      payload:{ closable: closable,pause: !closable }
     })
   }
   const tagListProps = {
     tagName: list,
     closable: closable,
+    pause: pause,
     showModal(){
       dispatch({
         type: 'mymodal/showModal',

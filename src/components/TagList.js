@@ -1,9 +1,12 @@
 import React from 'react';
 import { Button, Icon } from 'antd';
 import PropTypes from 'prop-types';
+import TweenOne from 'rc-tween-one';
 import styles from './TagList.css';
 
-function TagList({tagName, showModal, closable, removedTags}) {
+const animation = { blur: '1px', yoyo: true, repeat: -1, duration: 1000 }
+
+function TagList({tagName, showModal, closable, removedTags, paused}) {
   return (
     <div className={styles.normal}>
       {
@@ -15,13 +18,16 @@ function TagList({tagName, showModal, closable, removedTags}) {
       }
       {
         closable && tagName.map((item,i) =>
-          <Button className="tada animated infinite" key={i} onClick={() => removedTags(i)}>
+         <Button key={i} onClick={() => removedTags(i)}>
             {item.tagName}
             <Icon type="close-circle" />
           </Button>
         )
       }
-      { closable && <Button type="dashed" onClick={showModal}><Icon type="plus" /> 添加</Button>}
+      { closable &&  <TweenOne
+            animation={animation}
+            paused={paused}
+          ><Button type="dashed" onClick={showModal}><Icon type="plus" /> 添加</Button></TweenOne>}
     </div>
   );
 }
@@ -30,6 +36,7 @@ TagList.propTypes = {
   showModal: PropTypes.func,
   closable: PropTypes.bool,
   removedTags: PropTypes.func,
+  paused: PropTypes.bool,
 };
 
 export default TagList;
